@@ -1,1 +1,1 @@
-web: java --enable-preview -Dserver.port=$PORT $JAVA_OPTS -jar target/*.war
+web: java --enable-preview -Dserver.port=$PORT $JAVA_OPTS -jar target/*.jar

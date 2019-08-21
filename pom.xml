@@ -11,7 +11,7 @@
     <groupId>com.softuni</groupId>
     <artifactId>productshop</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>Product Shop</name>
     <description>Workshop Project for Java MVC Frameworks</description>
 
