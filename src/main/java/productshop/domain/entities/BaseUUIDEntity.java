@@ -21,7 +21,7 @@ abstract class BaseUUIDEntity {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(name = "id", unique = true, nullable = false, updatable = false, columnDefinition = "BINARY(16)")
+    @Column(name = "id", unique = true, nullable = false, updatable = false, columnDefinition = "UUID")
     private UUID id;
 
     @Override

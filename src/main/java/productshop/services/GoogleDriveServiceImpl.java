@@ -14,6 +14,8 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,11 +29,12 @@ import java.util.Set;
 @Service
 public class GoogleDriveServiceImpl implements GoogleDriveService {
 
+    private final String credentials;
+
     private static final String APPLICATION_NAME = "Product Shop Spring MVC Workshop";
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
     private static final List<String> SCOPES = Collections.singletonList(DriveScopes.DRIVE);
-    private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
 
     private static final int MAX_ALLOWED_SIZE_IN_MB = 3;
     private static final Set<String> ALLOWED_MIME_TYPES = new HashSet<>() {{
@@ -44,7 +47,9 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
     private final NetHttpTransport HTTP_TRANSPORT;
     private final Drive service;
 
-    public GoogleDriveServiceImpl() throws GeneralSecurityException, IOException {
+    @Autowired
+    public GoogleDriveServiceImpl(Environment environment) throws GeneralSecurityException, IOException {
+        credentials = environment.getProperty("google.drive.credentials");
         HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         service = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
                 .setApplicationName(APPLICATION_NAME)
@@ -133,11 +138,7 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
     }
 
     private Credential getCredentials(NetHttpTransport HTTP_TRANSPORT) throws IOException {
-        // Load client secrets.
-        InputStream in = GoogleDriveServiceImpl.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
-        if (in == null) {
-            throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
-        }
+        InputStream in = new ByteArrayInputStream(credentials.getBytes());
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
         // Build flow and trigger user authorization request.
