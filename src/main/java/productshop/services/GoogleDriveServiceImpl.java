@@ -51,10 +51,9 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
     public GoogleDriveServiceImpl(Environment environment) throws GeneralSecurityException, IOException {
         credentials = environment.getProperty("google.drive.credentials");
         HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        service = null;
-//        service = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
-//                .setApplicationName(APPLICATION_NAME)
-//                .build();
+        service = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
+                .setApplicationName(APPLICATION_NAME)
+                .build();
     }
 
     @Override
