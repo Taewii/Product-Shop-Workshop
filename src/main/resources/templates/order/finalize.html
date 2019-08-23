@@ -13,7 +13,7 @@
             <div class="form-group mx-auto text-center">
                 <input th:field="*{imageUrl}" th:value="*{imageUrl}" type="hidden">
                 <img height="250px"
-                     th:src="@{https://drive.google.com/uc?id={id}(id=${product.imageUrl})}" width="250px">
+                     th:src="*{imageUrl}" width="250px">
             </div>
             <div class="form-group">
                 <label class="font-weight-bold" for="order-product-customer">Customer</label>

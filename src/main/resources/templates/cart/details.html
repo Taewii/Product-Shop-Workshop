@@ -22,7 +22,7 @@
             <tr class="row mx-auto" th:each="order : ${orders}">
                 <th class="col-md-2 text-center">
                     <img alt="Product" height="150"
-                         th:src="@{https://drive.google.com/uc?id={id}(id=${order.productImageUrl})}" width="150">
+                         th:src="${order.productImageUrl}" width="150">
                 </th>
                 <td class="col-md-3 text-center" th:text="${order.productName}"></td>
                 <td class="col-md-2 text-center" th:text="${order.productDescription}">Smartphone</td>

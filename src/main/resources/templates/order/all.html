@@ -26,7 +26,7 @@
                         <a th:href="@{/orders/details/{id}(id=${order.id})}">
                             <img alt="Product"
                                  height="40"
-                                 th:src="@{https://drive.google.com/uc?id={id}(id=${order.productImageUrl})}"
+                                 th:src="${order.productImageUrl}"
                                  width="40">
                         </a>
                     </div>

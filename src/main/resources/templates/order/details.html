@@ -8,7 +8,7 @@
         <div class="jumbotron bg-light" th:object="${order}">
             <div class="text-center">
                 <img alt="Product" height="200"
-                     th:src="@{https://drive.google.com/uc?id={id}(id=${order.productImageUrl})}" width="200">
+                     th:src="${order.productImageUrl}" width="200">
             </div>
             <div class="row">
                 <div class="col col-md-12 text-center mt-5">

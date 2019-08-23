@@ -25,17 +25,17 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
-    private final GoogleDriveService googleDriveService;
+    private final DropboxService dropboxService;
     private final ModelMapper mapper;
 
     @Autowired
     public ProductServiceImpl(ProductRepository productRepository,
                               CategoryRepository categoryRepository,
-                              GoogleDriveService googleDriveService,
+                              DropboxService dropboxService,
                               ModelMapper mapper) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
-        this.googleDriveService = googleDriveService;
+        this.dropboxService = dropboxService;
         this.mapper = mapper;
     }
 
@@ -44,7 +44,7 @@ public class ProductServiceImpl implements ProductService {
     public String add(AddProductBindingModel model) {
         String fileId;
         try {
-            fileId = googleDriveService.uploadFile(model.getImage());
+            fileId = dropboxService.uploadImageAndCreateSharableLink(model.getImage());
         } catch (IllegalArgumentException ex) {
             ex.printStackTrace();
             return null;
@@ -94,7 +94,7 @@ public class ProductServiceImpl implements ProductService {
     @CacheEvict(cacheNames = "products", allEntries = true)
     public void delete(DeleteProductBindingModel model) {
         Product product = productRepository.findById(model.getId()).orElseThrow();
-        googleDriveService.delete(product.getImageUrl());
+        dropboxService.deleteFileFromSharableUrl(product.getImageUrl());
         productRepository.delete(product);
     }
 
