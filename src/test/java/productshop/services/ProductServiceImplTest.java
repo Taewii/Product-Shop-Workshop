@@ -39,14 +39,14 @@ public class ProductServiceImplTest {
     private CategoryRepository categoryRepository;
 
     @MockBean
-    private GoogleDriveService googleDriveService;
+    private DropboxService dropboxService;
 
     @Captor
     private ArgumentCaptor captor;
 
     @Test
     public void add_withValidInput_addsProductAndReturnsItsId() {
-        when(googleDriveService.uploadFile(any())).thenReturn("imageId");
+        when(dropboxService.uploadImageAndCreateSharableLink(any())).thenReturn("imageId");
         when(categoryRepository.findById(1L)).thenReturn(Optional.of(new Category() {{
             setId(1L);
         }}));
@@ -79,8 +79,8 @@ public class ProductServiceImplTest {
     }
 
     @Test
-    public void add_withValidInvalidFile_returnsNullAmdStopsMethodExecution() {
-        when(googleDriveService.uploadFile(any())).thenThrow(IllegalArgumentException.class);
+    public void add_withValidInvalidFile_returnsNullAndStopsMethodExecution() {
+        when(dropboxService.uploadImageAndCreateSharableLink(any())).thenThrow(IllegalArgumentException.class);
         AddProductBindingModel model = new AddProductBindingModel();
 
         String result = productService.add(model);
@@ -189,7 +189,7 @@ public class ProductServiceImplTest {
 
     @Test
     public void edit_withValidInput_editsSuccessfully() {
-        when(googleDriveService.uploadFile(any())).thenReturn("imageId");
+        when(dropboxService.uploadImageAndCreateSharableLink(any())).thenReturn("imageId");
         when(categoryRepository.findById(1L)).thenReturn(Optional.of(new Category() {{
             setId(1L);
         }}));
@@ -265,7 +265,7 @@ public class ProductServiceImplTest {
 
         productService.delete(model);
 
-        verify(googleDriveService).delete(any(String.class));
+        verify(dropboxService).deleteFileFromSharableUrl(any(String.class));
         verify(productRepository).delete(any(Product.class));
     }
 

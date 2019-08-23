@@ -45,11 +45,12 @@ public class UserController {
     private static final String OLD_PASSWORD_ATTRIBUTE = "oldPassword";
 
     private final UserService userService;
-    private final UserValidator userValidator;
     private final RecaptchaService recaptchaService;
+    private final UserValidator userValidator;
 
     @Autowired
-    public UserController(UserService userService, UserValidator userValidator,
+    public UserController(UserService userService,
+                          UserValidator userValidator,
                           RecaptchaService recaptchaService) {
         this.userService = userService;
         this.userValidator = userValidator;
