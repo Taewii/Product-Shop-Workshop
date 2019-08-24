@@ -1,14 +1,14 @@
 package productshop.web.controllers;
 
+import io.zonky.test.db.AutoConfigureEmbeddedDatabase;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -17,6 +17,7 @@ import productshop.domain.entities.Category;
 import productshop.domain.entities.Product;
 import productshop.repositories.CategoryRepository;
 import productshop.repositories.ProductRepository;
+import productshop.services.DropboxService;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -24,6 +25,8 @@ import java.util.UUID;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -31,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
-@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
+@AutoConfigureEmbeddedDatabase
 public class ProductControllerTest {
 
     @Autowired
@@ -42,6 +45,9 @@ public class ProductControllerTest {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @SpyBean
+    private DropboxService dropboxService;
 
     @Before
     public void clear() {
@@ -264,6 +270,7 @@ public class ProductControllerTest {
     @WithMockUser(roles = "MODERATOR")
     public void delete_delete_withModeratorUserValidId_deletesProductAndRedirectsCorrectly() throws Exception {
         Product product = createProduct("product");
+        doReturn(null).when(dropboxService).deleteFileFromSharableUrl(any(String.class));
 
         mockMvc.perform(delete("/products/delete")
                 .with(csrf())
