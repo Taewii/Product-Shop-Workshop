@@ -2,7 +2,7 @@
 # [Product Shop](https://product-shop-workshop.herokuapp.com/home?title=Product+Shop)
 ##### Workshop for the course [Spring MVC Frameworks - Spring](https://softuni.bg/trainings/2295/java-mvc-frameworks-spring-february-2019/open#lesson-11017) at [Software University](https://softuni.bg/). Deployed to [Heroku](https://dashboard.heroku.com/).
 ------------
-#### Simple Product Shop project with the functionality:
+### Simple Product Shop project with the functionality:
 
 - User functionality
 - Admin and User roles managed through the application
@@ -11,11 +11,11 @@
 - Orders
 - Shopping Cart
 ------------
-#### Running on:
+### Running on:
 - Java **11**
 - Spring Boot **2.1.6.RELEASE**
 
-#### Some of the technologies used:
+### Some of the technologies used:
 - Spring MVC
 - Spring Security
     - User roles
@@ -30,7 +30,7 @@
 - [Model Mapper](ModelMapper) for object mapping
 - Some AJAX for dynamically loading content
 
-##### Testing
+### Testing
 - JUnit as a testing framework
 - Mockito for mocking
 - Spring Security testing
