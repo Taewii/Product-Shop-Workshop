@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
+import productshop.domain.annotations.PageTitle;
 import productshop.domain.models.view.product.ListProductsViewModel;
 import productshop.services.CategoryService;
 import productshop.services.ProductService;
@@ -41,6 +42,7 @@ public class HomeController {
         return INDEX_VIEW;
     }
 
+    @PageTitle
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/home")
     public String home(Model model) {
