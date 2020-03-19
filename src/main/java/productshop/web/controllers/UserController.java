@@ -14,7 +14,6 @@ import productshop.domain.models.binding.user.RegisterUserBindingModel;
 import productshop.domain.models.view.user.EditUserProfileViewModel;
 import productshop.domain.models.view.user.UserProfileViewModel;
 import productshop.domain.validation.UserValidator;
-import productshop.services.RecaptchaService;
 import productshop.services.UserService;
 
 import javax.servlet.ServletException;
@@ -41,20 +40,16 @@ public class UserController {
     private static final String USERS_ATTRIBUTE = "users";
     private static final String USERNAME_ATTRIBUTE = "username";
     private static final String PROFILE_ATTRIBUTE = "profile";
-    private static final String RECAPTCHA_ATTRIBUTE = "g-recaptcha-response";
     private static final String OLD_PASSWORD_ATTRIBUTE = "oldPassword";
 
     private final UserService userService;
-    private final RecaptchaService recaptchaService;
     private final UserValidator userValidator;
 
     @Autowired
     public UserController(UserService userService,
-                          UserValidator userValidator,
-                          RecaptchaService recaptchaService) {
+                          UserValidator userValidator) {
         this.userService = userService;
         this.userValidator = userValidator;
-        this.recaptchaService = recaptchaService;
     }
 
     @PageTitle(text = "Login")
@@ -71,17 +66,8 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String registerPost(@Valid @ModelAttribute(USER_ATTRIBUTE) RegisterUserBindingModel user, Errors errors,
-                               @RequestParam(RECAPTCHA_ATTRIBUTE) String recaptchaResponse,
-                               HttpServletRequest request) {
+    public String registerPost(@Valid @ModelAttribute(USER_ATTRIBUTE) RegisterUserBindingModel user, Errors errors) {
         if (errors.hasErrors()) {
-            return REGISTER_VIEW;
-        }
-
-        String ip = request.getRemoteAddr();
-        String captchaVerifyMessage = recaptchaService.verifyRecaptcha(ip, recaptchaResponse);
-
-        if (!captchaVerifyMessage.isBlank()) {
             return REGISTER_VIEW;
         }
 
