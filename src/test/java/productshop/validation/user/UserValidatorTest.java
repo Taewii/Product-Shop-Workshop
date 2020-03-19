@@ -3,7 +3,7 @@ package productshop.validation.user;
 import org.junit.Test;
 import org.springframework.validation.*;
 import productshop.domain.models.binding.user.EditUserProfileBindingModel;
-import productshop.domain.models.binding.user.RegisterUserBindingModel;
+import productshop.domain.models.binding.user.SignUpRequest;
 import productshop.domain.validation.UserValidator;
 
 import java.util.List;
@@ -18,13 +18,13 @@ public class UserValidatorTest {
 
     @Test
     public void validatorSupportsNeededClasses() {
-        assertTrue(validator.supports(RegisterUserBindingModel.class));
+        assertTrue(validator.supports(SignUpRequest.class));
         assertTrue(validator.supports(EditUserProfileBindingModel.class));
     }
 
     @Test
     public void registerUserBindingModel_notValid_withNotMatchingPasswords_returnsCorrectMessages() {
-        RegisterUserBindingModel user = new RegisterUserBindingModel();
+        SignUpRequest user = new SignUpRequest();
         user.setPassword("password");
         user.setConfirmPassword("otherPassword");
         Errors errors = new BeanPropertyBindingResult(user, "user");
@@ -45,7 +45,7 @@ public class UserValidatorTest {
 
     @Test
     public void registerUserBindingModel_valid_withMatchingPasswords() {
-        RegisterUserBindingModel user = new RegisterUserBindingModel();
+        SignUpRequest user = new SignUpRequest();
         user.setPassword("password");
         user.setConfirmPassword("password");
         Errors errors = new BeanPropertyBindingResult(user, "user");

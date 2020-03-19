@@ -5,7 +5,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import productshop.domain.models.base.UserModel;
 import productshop.domain.models.binding.user.EditUserProfileBindingModel;
-import productshop.domain.models.binding.user.RegisterUserBindingModel;
+import productshop.domain.models.binding.user.SignUpRequest;
 
 import static productshop.config.Constants.BAD_REQUEST_ERROR_CODE;
 import static productshop.config.Constants.PASSWORDS_DONT_MATCH_MESSAGE;
@@ -32,8 +32,8 @@ public class UserValidator implements Validator {
                 errors.rejectValue(NEW_PASSWORD_ATTRIBUTE, BAD_REQUEST_ERROR_CODE, PASSWORDS_DONT_MATCH_MESSAGE);
                 errors.rejectValue(CONFIRM_NEW_PASSWORD_ATTRIBUTE, BAD_REQUEST_ERROR_CODE, PASSWORDS_DONT_MATCH_MESSAGE);
             }
-        } else if (target instanceof RegisterUserBindingModel) {
-            RegisterUserBindingModel user = (RegisterUserBindingModel) target;
+        } else if (target instanceof SignUpRequest) {
+            SignUpRequest user = (SignUpRequest) target;
 
             if (!user.getPassword().equalsIgnoreCase(user.getConfirmPassword())) {
                 errors.rejectValue(PASSWORD_ATTRIBUTE, BAD_REQUEST_ERROR_CODE, PASSWORDS_DONT_MATCH_MESSAGE);

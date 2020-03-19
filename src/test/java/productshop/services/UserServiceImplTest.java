@@ -15,7 +15,6 @@ import productshop.domain.entities.Role;
 import productshop.domain.entities.User;
 import productshop.domain.enums.Authority;
 import productshop.domain.models.binding.user.EditUserProfileBindingModel;
-import productshop.domain.models.binding.user.RegisterUserBindingModel;
 import productshop.domain.models.view.user.ListUserWithRolesViewModel;
 import productshop.domain.models.view.user.UserProfileViewModel;
 import productshop.repositories.RoleRepository;
@@ -151,72 +150,72 @@ public class UserServiceImplTest {
         userService.changeRole(UUID.randomUUID().toString(), "invalid");
     }
 
-    @Test
-    public void register_withExistingUser_returnsNullAndStopsMethodExecution() {
-        User user = mock(User.class);
-        RegisterUserBindingModel model = mock(RegisterUserBindingModel.class);
-        when(model.getUsername()).thenReturn("existing");
-        when(userRepository.findByUsernameEager(any(String.class))).thenReturn(Optional.of(user));
+//    @Test
+//    public void register_withExistingUser_returnsNullAndStopsMethodExecution() {
+//        User user = mock(User.class);
+//        RegisterUserBindingModel model = mock(RegisterUserBindingModel.class);
+//        when(model.getUsername()).thenReturn("existing");
+//        when(userRepository.findByUsernameEager(any(String.class))).thenReturn(Optional.of(user));
+//
+//        User result = userService.register(model);
+//
+//        verify(userRepository, never()).saveAndFlush(any(User.class));
+//        assertNull(result);
+//    }
 
-        User result = userService.register(model);
+//    @Test
+//    public void register_withValidInputAndNoOtherUsersInDb_registersUserSuccessfullyAndSetsHimRootRole() {
+//        when(roleRepository.findById(1L)).thenReturn(Optional.of(new Role(Authority.ROOT) {{
+//            setId(1L);
+//        }}));
+//        when(roleRepository.findById(2L)).thenReturn(Optional.of(new Role(Authority.ADMIN) {{
+//            setId(2L);
+//        }}));
+//        when(roleRepository.findById(3L)).thenReturn(Optional.of(new Role(Authority.MODERATOR) {{
+//            setId(3L);
+//        }}));
+//        when(roleRepository.findById(4L)).thenReturn(Optional.of(new Role(Authority.USER) {{
+//            setId(4L);
+//        }}));
+//
+//        RegisterUserBindingModel model = new RegisterUserBindingModel();
+//        model.setUsername("username");
+//        model.setPassword("password");
+//        model.setEmail("email");
+//
+//        User result = userService.register(model);
+//
+//        // TODO: 30.7.2019 г. not sure how to do the testing here without in-memory db
+//        verify(userRepository).saveAndFlush(any(User.class));
+//    }
 
-        verify(userRepository, never()).saveAndFlush(any(User.class));
-        assertNull(result);
-    }
-
-    @Test
-    public void register_withValidInputAndNoOtherUsersInDb_registersUserSuccessfullyAndSetsHimRootRole() {
-        when(roleRepository.findById(1L)).thenReturn(Optional.of(new Role(Authority.ROOT) {{
-            setId(1L);
-        }}));
-        when(roleRepository.findById(2L)).thenReturn(Optional.of(new Role(Authority.ADMIN) {{
-            setId(2L);
-        }}));
-        when(roleRepository.findById(3L)).thenReturn(Optional.of(new Role(Authority.MODERATOR) {{
-            setId(3L);
-        }}));
-        when(roleRepository.findById(4L)).thenReturn(Optional.of(new Role(Authority.USER) {{
-            setId(4L);
-        }}));
-
-        RegisterUserBindingModel model = new RegisterUserBindingModel();
-        model.setUsername("username");
-        model.setPassword("password");
-        model.setEmail("email");
-
-        User result = userService.register(model);
-
-        // TODO: 30.7.2019 г. not sure how to do the testing here without in-memory db
-        verify(userRepository).saveAndFlush(any(User.class));
-    }
-
-    @Test
-    public void register_withValidInput_registersUserSuccessfullyAndSetsHimUserRole() {
-        when(roleRepository.findById(1L)).thenReturn(Optional.of(new Role(Authority.ROOT) {{
-            setId(1L);
-        }}));
-        when(roleRepository.findById(2L)).thenReturn(Optional.of(new Role(Authority.ADMIN) {{
-            setId(2L);
-        }}));
-        when(roleRepository.findById(3L)).thenReturn(Optional.of(new Role(Authority.MODERATOR) {{
-            setId(3L);
-        }}));
-        when(roleRepository.findById(4L)).thenReturn(Optional.of(new Role(Authority.USER) {{
-            setId(4L);
-        }}));
-
-        when(userRepository.count()).thenReturn(1L);
-
-        RegisterUserBindingModel model = new RegisterUserBindingModel();
-        model.setUsername("username");
-        model.setPassword("password");
-        model.setEmail("email");
-
-        User result = userService.register(model);
-
-        // TODO: 30.7.2019 г. not sure how to do the testing here without in-memory db
-        verify(userRepository).saveAndFlush(any(User.class));
-    }
+//    @Test
+//    public void register_withValidInput_registersUserSuccessfullyAndSetsHimUserRole() {
+//        when(roleRepository.findById(1L)).thenReturn(Optional.of(new Role(Authority.ROOT) {{
+//            setId(1L);
+//        }}));
+//        when(roleRepository.findById(2L)).thenReturn(Optional.of(new Role(Authority.ADMIN) {{
+//            setId(2L);
+//        }}));
+//        when(roleRepository.findById(3L)).thenReturn(Optional.of(new Role(Authority.MODERATOR) {{
+//            setId(3L);
+//        }}));
+//        when(roleRepository.findById(4L)).thenReturn(Optional.of(new Role(Authority.USER) {{
+//            setId(4L);
+//        }}));
+//
+//        when(userRepository.count()).thenReturn(1L);
+//
+//        RegisterUserBindingModel model = new RegisterUserBindingModel();
+//        model.setUsername("username");
+//        model.setPassword("password");
+//        model.setEmail("email");
+//
+//        User result = userService.register(model);
+//
+//        // TODO: 30.7.2019 г. not sure how to do the testing here without in-memory db
+//        verify(userRepository).saveAndFlush(any(User.class));
+//    }
 
     @Test
     public void edit_withValidInput_successfullyEditsUser() {

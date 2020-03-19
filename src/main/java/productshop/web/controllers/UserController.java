@@ -1,6 +1,7 @@
 package productshop.web.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import productshop.domain.annotations.PageTitle;
 import productshop.domain.entities.User;
 import productshop.domain.models.binding.user.EditUserProfileBindingModel;
-import productshop.domain.models.binding.user.RegisterUserBindingModel;
+import productshop.domain.models.binding.user.SignUpRequest;
 import productshop.domain.models.view.user.EditUserProfileViewModel;
 import productshop.domain.models.view.user.UserProfileViewModel;
 import productshop.domain.validation.UserValidator;
@@ -61,24 +62,30 @@ public class UserController {
     @PageTitle(text = "Register")
     @GetMapping("/register")
     public String register(Model model) {
-        model.addAttribute(USER_ATTRIBUTE, new RegisterUserBindingModel());
+        model.addAttribute(USER_ATTRIBUTE, new SignUpRequest());
         return REGISTER_VIEW;
     }
 
+    @ResponseBody
     @PostMapping("/register")
-    public String registerPost(@Valid @ModelAttribute(USER_ATTRIBUTE) RegisterUserBindingModel user, Errors errors) {
-        if (errors.hasErrors()) {
-            return REGISTER_VIEW;
-        }
-
-        User entity = userService.register(user);
-        if (entity == null) {
-            errors.rejectValue(USERNAME_ATTRIBUTE, BAD_REQUEST_ERROR_CODE, USERNAME_ALREADY_IN_USE_MESSAGE);
-            return REGISTER_VIEW;
-        }
-
-        return "redirect:/users/login";
+    public ResponseEntity<?> register(@Valid @RequestBody SignUpRequest model) {
+        return userService.register(model);
     }
+
+//    @PostMapping("/register")
+//    public String registerPost(@Valid @ModelAttribute(USER_ATTRIBUTE) RegisterUserBindingModel user, Errors errors) {
+//        if (errors.hasErrors()) {
+//            return REGISTER_VIEW;
+//        }
+//
+//        User entity = userService.register(user);
+//        if (entity == null) {
+//            errors.rejectValue(USERNAME_ATTRIBUTE, BAD_REQUEST_ERROR_CODE, USERNAME_ALREADY_IN_USE_MESSAGE);
+//            return REGISTER_VIEW;
+//        }
+//
+//        return "redirect:/users/login";
+//    }
 
     @PageTitle(text = "Profile")
     @PreAuthorize("isAuthenticated()")

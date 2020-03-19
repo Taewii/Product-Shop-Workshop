@@ -3,7 +3,6 @@ package productshop.domain.models.binding.user;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import productshop.domain.models.base.UserModel;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -13,7 +12,7 @@ import static productshop.config.Constants.*;
 @Getter
 @Setter
 @NoArgsConstructor
-public class RegisterUserBindingModel implements UserModel {
+public class SignUpRequest {
 
     @NotBlank(message = BLANK_USERNAME_MESSAGE)
     private String username;

@@ -2,21 +2,25 @@ package productshop.services;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import productshop.config.Constants;
 import productshop.domain.entities.Role;
 import productshop.domain.entities.User;
 import productshop.domain.enums.Authority;
+import productshop.domain.models.ApiResponse;
 import productshop.domain.models.binding.user.EditUserProfileBindingModel;
-import productshop.domain.models.binding.user.RegisterUserBindingModel;
+import productshop.domain.models.binding.user.SignUpRequest;
 import productshop.domain.models.view.user.ListUserWithRolesViewModel;
 import productshop.repositories.RoleRepository;
 import productshop.repositories.UserRepository;
 
 import javax.transaction.Transactional;
+import java.net.URI;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -53,10 +57,17 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new UsernameNotFoundException(Constants.USERNAME_NOT_FOUND));
     }
 
+    @Transactional
     @Override
-    public User register(RegisterUserBindingModel model) {
+    public UserDetails loadUserById(UUID userId) {
+        return userRepository.findByIdWithRoles(userId)
+                .orElseThrow(() -> new UsernameNotFoundException(Constants.USERNAME_NOT_FOUND));
+    }
+
+    @Override
+    public ResponseEntity<?> register(SignUpRequest model) {
         if (userRepository.findByUsernameEager(model.getUsername()).isPresent()) {
-            return null;
+            return ResponseEntity.badRequest().body(new ApiResponse(false, "User already exists."));
         }
 
         User user = mapper.map(model, User.class);
@@ -67,7 +78,14 @@ public class UserServiceImpl implements UserService {
             user.setRoles(this.getInheritedRolesFromRole("USER"));
         }
 
-        return userRepository.saveAndFlush(user);
+        userRepository.saveAndFlush(user);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentContextPath().path("/api/user/register")
+                .buildAndExpand().toUri();
+
+        return ResponseEntity
+                .created(location)
+                .body(new ApiResponse(true, "User created successfully"));
     }
 
     @Override
