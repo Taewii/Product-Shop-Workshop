@@ -3,7 +3,6 @@ package productshop.services;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import productshop.domain.entities.User;
 import productshop.domain.models.binding.user.EditUserProfileBindingModel;
 import productshop.domain.models.binding.user.SignUpRequest;
 import productshop.domain.models.view.user.ListUserWithRolesViewModel;
@@ -17,11 +16,11 @@ public interface UserService extends UserDetailsService {
 
     <T> T getByUsername(String username, Class<T> targetClass);
 
-    User edit(String username, EditUserProfileBindingModel profile);
+    ResponseEntity<?> edit(String username, EditUserProfileBindingModel profile);
 
     List<ListUserWithRolesViewModel> findAll();
 
-    void changeRole(String userId, String newRole);
+    ResponseEntity<?> changeRole(String userId, String newRole);
 
     UserDetails loadUserById(UUID userId);
 }

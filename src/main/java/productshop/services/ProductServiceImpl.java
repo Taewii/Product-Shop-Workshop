@@ -4,9 +4,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import productshop.domain.entities.Category;
 import productshop.domain.entities.Product;
+import productshop.domain.models.ApiResponse;
 import productshop.domain.models.binding.product.AddProductBindingModel;
 import productshop.domain.models.binding.product.DeleteProductBindingModel;
 import productshop.domain.models.binding.product.EditProductBindingModel;
@@ -41,7 +43,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @CacheEvict(cacheNames = "products", allEntries = true)
-    public String add(AddProductBindingModel model) {
+    public ResponseEntity<?> add(AddProductBindingModel model) {
         String fileId;
         try {
             fileId = dropboxService.uploadImageAndCreateSharableLink(model.getImage());
@@ -56,7 +58,8 @@ public class ProductServiceImpl implements ProductService {
         product.setCategories(this.getCategoriesFromValues(model.getCategories()));
 
         Product entity = productRepository.saveAndFlush(product);
-        return entity.getId().toString();
+        return ResponseEntity.ok(new ApiResponse(true, entity.getId().toString()));
+        // TODO: 19.3.2020 г. should not return it like this lmao
     }
 
     @Override
@@ -80,7 +83,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @CacheEvict(cacheNames = "products", allEntries = true)
-    public void edit(EditProductBindingModel model) {
+    public ResponseEntity<?> edit(EditProductBindingModel model) {
         Product product = productRepository.findByIdEager(model.getId()).orElseThrow();
         product.setName(model.getName());
         product.setDescription(model.getDescription());
@@ -88,14 +91,16 @@ public class ProductServiceImpl implements ProductService {
         product.setCategories(this.getCategoriesFromValues(model.getCategories()));
 
         productRepository.saveAndFlush(product);
+        return ResponseEntity.ok(new ApiResponse(true, "Successfully edited product"));
     }
 
     @Override
     @CacheEvict(cacheNames = "products", allEntries = true)
-    public void delete(DeleteProductBindingModel model) {
+    public ResponseEntity<?> delete(DeleteProductBindingModel model) {
         Product product = productRepository.findById(model.getId()).orElseThrow();
         dropboxService.deleteFileFromSharableUrl(product.getImageUrl());
         productRepository.delete(product);
+        return ResponseEntity.ok(new ApiResponse(true, "Successfully deleted product"));
     }
 
     private Set<Category> getCategoriesFromValues(Collection<Long> values) {

@@ -1,5 +1,6 @@
 package productshop.services;
 
+import org.apache.http.HttpStatus;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -94,7 +95,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User edit(String username, EditUserProfileBindingModel model) {
+    public ResponseEntity<?> edit(String username, EditUserProfileBindingModel model) {
         User user = userRepository.findByUsername(username).orElseThrow();
         if (!passwordEncoder.matches(model.getOldPassword(), user.getPassword())) {
             return null;
@@ -103,7 +104,8 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(model.getNewPassword()));
         user.setEmail(model.getEmail());
 
-        return userRepository.saveAndFlush(user);
+        userRepository.saveAndFlush(user);
+        return ResponseEntity.ok(new ApiResponse(true, "Profile edited successfully."));
     }
 
     @Override
@@ -121,14 +123,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void changeRole(String userId, String newRole) {
+    public ResponseEntity<?> changeRole(String userId, String newRole) {
         if (newRole.equalsIgnoreCase("root")) {
-            throw new IllegalArgumentException(Constants.CANNOT_CHANGE_TO_ROOT);
+            return ResponseEntity.status(HttpStatus.SC_FORBIDDEN)
+                    .body(new ApiResponse(false, "Cannot change role to root."));
         }
 
         User user = userRepository.findById(UUID.fromString(userId)).orElseThrow();
         user.setRoles(this.getInheritedRolesFromRole(newRole));
         userRepository.saveAndFlush(user);
+        return ResponseEntity.ok(new ApiResponse(true, "Role changed successfully"));
     }
 
     private Authority getMainRole(Set<Role> roles) {

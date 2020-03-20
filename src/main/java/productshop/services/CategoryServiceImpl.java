@@ -3,14 +3,18 @@ package productshop.services;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import productshop.domain.entities.Category;
+import productshop.domain.models.ApiResponse;
 import productshop.domain.models.binding.category.AddCategoryBindingModel;
 import productshop.domain.models.binding.category.EditCategoryBindingModel;
 import productshop.domain.models.view.category.ListCategoriesViewModel;
 import productshop.domain.models.view.product.ListProductsViewModel;
 import productshop.repositories.CategoryRepository;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,14 +33,24 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public boolean add(AddCategoryBindingModel model) {
+    public ResponseEntity<?> add(AddCategoryBindingModel model) {
         if (model == null || categoryRepository.findByName(model.getName()).isPresent()) {
-            return false;
+            return ResponseEntity
+                    .badRequest()
+                    .body(new ApiResponse(false, "Category already exists."));
         }
+
 
         Category category = mapper.map(model, Category.class);
         categoryRepository.saveAndFlush(category);
-        return true;
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentContextPath().path("/api/category/add")
+                .buildAndExpand().toUri();
+
+        return ResponseEntity
+                .created(location)
+                .body(new ApiResponse(true, "Category created successfully"));
     }
 
     @Override
@@ -54,22 +68,25 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public boolean edit(EditCategoryBindingModel model) {
+    public ResponseEntity<?> edit(EditCategoryBindingModel model) {
         if (model == null || categoryRepository.findByName(model.getName()).isPresent()) {
-            return false;
+            return ResponseEntity
+                    .badRequest()
+                    .body(new ApiResponse(false, "Category name already exists."));
         }
 
         Category category = categoryRepository.findById(model.getId()).orElseThrow();
         category.setName(model.getName());
 
         categoryRepository.saveAndFlush(category);
-        return true;
+        return ResponseEntity.ok(new ApiResponse(true, "Category name changed successfully."));
     }
 
     @Override
-    public void remove(String categoryName) {
+    public ResponseEntity<?> remove(String categoryName) {
         Category category = categoryRepository.findByName(categoryName).orElseThrow();
         categoryRepository.delete(category);
+        return ResponseEntity.ok(new ApiResponse(true, "Category deleted successfully."));
     }
 
     @Override

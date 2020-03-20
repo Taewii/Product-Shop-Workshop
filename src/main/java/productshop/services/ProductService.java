@@ -1,5 +1,6 @@
 package productshop.services;
 
+import org.springframework.http.ResponseEntity;
 import productshop.domain.models.binding.product.AddProductBindingModel;
 import productshop.domain.models.binding.product.DeleteProductBindingModel;
 import productshop.domain.models.binding.product.EditProductBindingModel;
@@ -10,7 +11,7 @@ import java.util.UUID;
 
 public interface ProductService {
 
-    String add(AddProductBindingModel model);
+    ResponseEntity<?> add(AddProductBindingModel model);
 
     <T> T findByIdEager(UUID id, Class<T> targetClass);
 
@@ -18,7 +19,7 @@ public interface ProductService {
 
     List<ListProductsViewModel> findAll();
 
-    void edit(EditProductBindingModel model);
+    ResponseEntity<?> edit(EditProductBindingModel model);
 
-    void delete(DeleteProductBindingModel model);
+    ResponseEntity<?> delete(DeleteProductBindingModel model);
 }

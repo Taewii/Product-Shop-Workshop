@@ -1,5 +1,6 @@
 package productshop.services;
 
+import org.springframework.http.ResponseEntity;
 import productshop.domain.models.binding.category.AddCategoryBindingModel;
 import productshop.domain.models.binding.category.EditCategoryBindingModel;
 import productshop.domain.models.view.category.ListCategoriesViewModel;
@@ -9,15 +10,15 @@ import java.util.List;
 
 public interface CategoryService {
 
-    boolean add(AddCategoryBindingModel model);
+    ResponseEntity<?> add(AddCategoryBindingModel model);
 
     List<ListCategoriesViewModel> findAll();
 
     <T> T findById(String id, Class<T> targetClass);
 
-    boolean edit(EditCategoryBindingModel model);
+    ResponseEntity<?> edit(EditCategoryBindingModel model);
 
-    void remove(String categoryName);
+    ResponseEntity<?> remove(String categoryName);
 
     List<ListProductsViewModel> getProductsByCategoryId(Long categoryId);
 }

@@ -2,11 +2,14 @@ package productshop.services;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import productshop.domain.entities.Order;
 import productshop.domain.entities.Product;
 import productshop.domain.entities.User;
 import productshop.domain.enums.Authority;
+import productshop.domain.models.ApiResponse;
 import productshop.domain.models.binding.order.OrderProductBindingModel;
 import productshop.domain.models.view.order.ListOrdersViewModel;
 import productshop.domain.models.view.order.OrderDetailsViewModel;
@@ -43,17 +46,18 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void addToCart(OrderProductBindingModel model) {
+    public ResponseEntity<?> addToCart(OrderProductBindingModel model) {
         User user = userRepository.findByUsername(model.getCustomer()).orElseThrow();
         Product product = productRepository.findById(model.getProductId()).orElseThrow();
 
         Order order = mapper.map(model, Order.class);
         order.setCustomer(user);
         order.setProduct(product);
-        order.setTotalPrice(model.getPrice().multiply(new BigDecimal(Math.floor(model.getQuantity()))));
+        order.setTotalPrice(model.getPrice().multiply(BigDecimal.valueOf(Math.floor(model.getQuantity()))));
         order.setId(null); // it maps the id to be the model.productId
 
         orderRepository.saveAndFlush(order);
+        return ResponseEntity.ok(new ApiResponse(true, "Product successfully added to cart."));
     }
 
     @Override
@@ -88,7 +92,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void remove(UUID id, String username) {
+    public ResponseEntity<?> remove(UUID id, String username) {
         Order order = orderRepository.findByIdEager(id).orElseThrow();
 
         // If the user that made the order doesn't match the currently logged in one,
@@ -97,15 +101,18 @@ public class OrderServiceImpl implements OrderService {
             User user = userRepository.findByUsernameEager(username).orElseThrow();
             if (user.getAuthorities().stream()
                     .noneMatch(r -> r.getAuthority().equalsIgnoreCase("ROLE_" + Authority.MODERATOR.name()))) {
-                throw new IllegalArgumentException(NO_PERMISSION_MESSAGE);
+                return ResponseEntity
+                        .status(HttpStatus.UNAUTHORIZED)
+                        .body(new ApiResponse(false, NO_PERMISSION_MESSAGE));
             }
         }
 
         orderRepository.delete(order);
+        return ResponseEntity.ok(new ApiResponse(true, "Order removed successfully."));
     }
 
     @Override
-    public void checkout(String username) {
+    public ResponseEntity<?> checkout(String username) {
         List<Order> orders = orderRepository.findAllNotFinalizedByUsernameEager(username);
 
         orders.forEach(order -> {
@@ -114,5 +121,7 @@ public class OrderServiceImpl implements OrderService {
 
             orderRepository.save(order);
         });
+
+        return ResponseEntity.ok(new ApiResponse(true, "Checkout successful."));
     }
 }
