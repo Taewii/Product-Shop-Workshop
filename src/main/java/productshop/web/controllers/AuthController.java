@@ -2,6 +2,7 @@ package productshop.web.controllers;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,6 +31,7 @@ public class AuthController {
     private final UserService userService;
     private final JwtTokenProvider tokenProvider;
     private final AuthenticationManager authenticationManager;
+    private final ModelMapper mapper;
 
     @PreAuthorize("isAnonymous()")
     @PostMapping("/signup")
@@ -50,8 +52,9 @@ public class AuthController {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        String jwt = tokenProvider.generateToken(authentication);
+        JwtAuthenticationResponse res = mapper.map(authentication.getPrincipal(), JwtAuthenticationResponse.class);
+        res.setToken(tokenProvider.generateToken(authentication));
         log.info("User logged in: {}", model.getUsernameOrEmail());
-        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
+        return ResponseEntity.ok(res);
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import productshop.domain.entities.Category;
+import productshop.domain.entities.Role;
 
 @Configuration
 @EnableCaching
@@ -22,7 +23,12 @@ public class AppBeanConfig {
         // Category -> Category Id
         Converter<Category, Long> converter = ctx ->
                 ctx.getSource() == null ? null : ctx.getSource().getId();
+
+        Converter<Role, String> roleToStringConverter = ctx ->
+                ctx.getSource() == null ? null : ctx.getSource().authorityAsEnum().name();
+
         mapper.typeMap(Category.class, Long.class).setConverter(converter);
+        mapper.typeMap(Role.class, String.class).setConverter(roleToStringConverter);
 
         return mapper;
     }
