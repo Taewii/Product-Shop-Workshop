@@ -13,6 +13,7 @@ import { IndexComponent } from './index/index.component';
 import { SignInComponent } from './user/sign-in/sign-in.component';
 import { SignUpComponent } from './user/sign-up/sign-up.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AllCategoriesComponent } from './category/all-categories/all-categories.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
     IndexComponent,
     SignInComponent,
     SignUpComponent,
+    AllCategoriesComponent,
   ],
   imports: [
     BrowserModule,
