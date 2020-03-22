@@ -45,7 +45,7 @@
 
                 <li class="nav-item active">
                     <form action="/logout?login" method="post"><input type="hidden" name="_csrf" value="c686cd14-a7f9-4216-8009-c093b7d3df86">
-                        <button class="logout-button nav-link">Logout</button>
+                        <button class="logout-button nav-link" (click)="logout()">Logout</button>
                     </form>
                 </li>
             </ul>

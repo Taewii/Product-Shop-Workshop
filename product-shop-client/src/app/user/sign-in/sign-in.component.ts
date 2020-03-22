@@ -1,5 +1,7 @@
+import { AuthService } from './../../auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-in',
@@ -11,7 +13,9 @@ export class SignInComponent implements OnInit {
   signInForm;
 
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private router: Router
   ) {
     this.signInForm = this.formBuilder.group({
       username: '',
@@ -23,7 +27,7 @@ export class SignInComponent implements OnInit {
   }
 
   signIn(data) {
-    console.log(data);
-    this.signInForm.reset();
+    this.authService.login(data.username, data.password);
+    this.router.navigate(['/']);
   }
 }
