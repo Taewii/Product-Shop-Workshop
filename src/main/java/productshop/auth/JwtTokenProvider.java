@@ -20,7 +20,7 @@ import java.util.UUID;
 public class JwtTokenProvider {
 
     private String jwtSecret = "superSecretKey"; // TODO: 19.3.2020 г. you know what..
-    private int jwtExpirationInMs = 7 * 24 * 60 * 60;
+    private int jwtExpirationInMs = 7 * 24 * 60 * 60 * 1000;
 
     public String generateToken(Authentication authentication) {
         User userPrincipal = (User) authentication.getPrincipal();

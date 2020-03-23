@@ -1,0 +1,12 @@
+<h1 class="text-center text-dark">Edit Category</h1>
+<hr class="hr-2 bg-dark w-25">
+<form id="edit-category-form" class="form w-25 mx-auto" #editCategoryForm="ngForm" (ngSubmit)="editCategory()">
+    <div class="form-group">
+        <label for="edit-category-name" class="font-weight-bold">Name</label>
+        <input type="text" class="form-control text-center" id="edit-category-name" name="name" [(ngModel)]="category.name" value="category.name">
+    </div>
+    <hr class="hr-2 bg-dark">
+    <div class="button-holder d-flex justify-content-center">
+        <button type="submit" class="btn btn-info">Edit Category</button>
+    </div>
+</form>

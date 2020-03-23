@@ -3,7 +3,6 @@ package productshop.web.controllers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import productshop.domain.models.binding.user.EditUserProfileBindingModel;
@@ -19,7 +18,7 @@ import java.util.List;
 
 import static productshop.config.Constants.IS_ADMIN;
 
-@Controller
+@RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class UserController {

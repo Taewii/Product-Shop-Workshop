@@ -17,7 +17,7 @@ export class AllCategoriesComponent implements OnInit {
   ngOnInit(): void {
     this.categoryService.all().subscribe((categories: Category[]) => {
       if (categories) {
-        this.categories = categories
+        this.categories = categories;
       }
     });
   }

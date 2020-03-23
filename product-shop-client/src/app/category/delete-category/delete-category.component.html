@@ -1,0 +1,12 @@
+<h1 class="text-center text-dark">Delete Category</h1>
+<hr class="hr-2 bg-dark w-25">
+<form id="delete-category-form" class="form w-25 mx-auto" (ngSubmit)="deleteCategory()">
+    <div class="form-group">
+        <label for="delete-category-name" class="font-weight-bold">Name</label>
+        <input type="text" class="form-control text-center" id="delete-category-name" name="name" [value]="category.name" readonly="">
+    </div>
+    <hr class="hr-2 bg-dark">
+    <div class="button-holder d-flex justify-content-center">
+        <button type="submit" class="btn btn-danger">Delete Category</button>
+    </div>
+</form>

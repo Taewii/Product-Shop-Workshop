@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import productshop.domain.models.binding.category.AddCategoryBindingModel;
-import productshop.domain.models.binding.category.DeleteCategoryBindingModel;
 import productshop.domain.models.binding.category.EditCategoryBindingModel;
 import productshop.domain.models.view.category.DeleteCategoryViewModel;
 import productshop.domain.models.view.category.EditCategoryViewModel;
@@ -62,8 +61,8 @@ public class CategoryController {
     }
 
     @PreAuthorize(IS_MODERATOR)
-    @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteDelete(@Valid @RequestBody DeleteCategoryBindingModel category) {
-        return categoryService.remove(category.getName());
+    @DeleteMapping("/delete/{category}")
+    public ResponseEntity<?> deleteDelete(@PathVariable String category) {
+        return categoryService.remove(category);
     }
 }

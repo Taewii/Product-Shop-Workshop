@@ -1,0 +1,32 @@
+<h1 class="text-center text-dark">All Users</h1>
+<hr class="hr-2 bg-dark w-75">
+<table class="table table-hover w-75 mx-auto">
+    <thead>
+        <tr class="row mx-auto">
+            <th class="col-md-2 text-center">#</th>
+            <th class="col-md-3 text-center">Username</th>
+            <th class="col-md-2 text-center">Email</th>
+            <th class="col-md-2 text-center">Roles</th>
+            <th class="col-md-3 text-center">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="row mx-auto" *ngFor="let user of users; let i = index">
+            <th class="col-md-2 text-center">{{ i + 1 }}</th>
+            <td class="col-md-3 text-center">{{user.username}}</td>
+            <td class="col-md-2 text-center">{{user.email}}</td>
+            <td class="col-md-2 text-center">{{user.mainRole}}</td>
+            <td class="col-md-3 text-center">
+                <div class="row" *ngIf="user.username !== currentUser.username && user.mainRole !== 'ROOT'">
+                    <button *ngIf="currentUser.roles.includes('ADMIN') && user.mainRole !== 'MODERATOR'" (click)="changeRole('moderator', user.id)"
+                        class="btn btn-dark mx-1">MODERATOR</button>
+                    <button *ngIf="currentUser.roles.includes('ADMIN') && user.mainRole !== 'ADMIN'" (click)="changeRole('admin', user.id)"
+                        class="btn btn-dark mx-1">ADMIN</button>
+                    <button *ngIf="currentUser.roles.includes('ADMIN') && user.mainRole !== 'USER'" (click)="changeRole('user', user.id)"
+                        class="btn btn-dark mx-1">USER</button>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<hr class="hr-2 bg-dark">

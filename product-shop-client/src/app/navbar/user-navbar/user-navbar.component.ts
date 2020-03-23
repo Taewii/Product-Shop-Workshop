@@ -1,5 +1,7 @@
+import { Component, OnInit, Input } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { AuthService } from './../../auth/auth.service';
-import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-user-navbar',
@@ -8,12 +10,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserNavbarComponent implements OnInit {
 
-  constructor(private authService: AuthService) { }
+  @Input() isAdmin: boolean;
+  @Input() isModerator: boolean;
+
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
+
   }
 
   logout() {
-    this.authService.logout()
+    this.authService.logout();
+    this.router.navigate(['/']);
   }
 }
