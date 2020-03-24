@@ -1,0 +1,32 @@
+<h1 class="text-center text-dark">Edit Profile</h1>
+<hr class="hr-2 bg-dark w-25">
+<form class="form w-25 mx-auto" #editProfileForm="ngForm" (ngSubmit)="editProfile()">
+    <div class="form-group">
+        <label for="username" class="font-weight-bold">Username</label>
+        <input type="text" [value]="user.username" class="form-control" name="oldPassword" id="username" readonly="">
+    </div>
+    <div class="form-group">
+        <label for="password" class="font-weight-bold">Old Password</label>
+        <input type="password" class="form-control" [(ngModel)]="editProfileModel.oldPassword" id="oldPassword" placeholder="Password..."
+            name="oldPassword" required="">
+    </div>
+    <div class="form-group">
+        <label for="confirmPassword" class="font-weight-bold">New Password</label>
+        <input type="password" class="form-control" [(ngModel)]="editProfileModel.newPassword" id="newPassword" placeholder="New Password..."
+            name="newPassword">
+    </div>
+    <div class="form-group">
+        <label for="confirmPassword" class="font-weight-bold">Confirm New Password</label>
+        <input type="password" class="form-control" [(ngModel)]="editProfileModel.newPasswordConfirm" id="newPasswordConfirm"
+            placeholder="Confirm New Password..." name="newPasswordConfirm">
+    </div>
+    <div class="form-group">
+        <label for="email" class="font-weight-bold">Email</label>
+        <input type="email" [value]="user.email" class="form-control" [(ngModel)]="editProfileModel.email" id="email" placeholder="Email..."
+            name="email">
+    </div>
+    <hr class="hr-2 bg-dark">
+    <div class="button-holder d-flex justify-content-center">
+        <button type="submit" class="btn btn-dark">Edit</button>
+    </div>
+</form>

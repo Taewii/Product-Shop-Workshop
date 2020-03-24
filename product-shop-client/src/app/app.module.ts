@@ -13,6 +13,8 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { SignInComponent } from './user/sign-in/sign-in.component';
 import { SignUpComponent } from './user/sign-up/sign-up.component';
 import { AllUsersComponent } from './user/all-users/all-users.component';
+import { UserProfileComponent } from './user/user-profile/user-profile.component';
+import { EditUserProfileComponent } from './user/edit-user-profile/edit-user-profile.component';
 import { AllCategoriesComponent } from './category/all-categories/all-categories.component';
 import { DeleteCategoryComponent } from './category/delete-category/delete-category.component';
 import { CreateCategoryComponent } from './category/create-category/create-category.component';
@@ -34,6 +36,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     CreateCategoryComponent,
     EditCategoryComponent,
     AllUsersComponent,
+    UserProfileComponent,
+    EditUserProfileComponent,
   ],
   imports: [
     BrowserModule,

@@ -10,5 +10,6 @@ import productshop.domain.models.base.UserModel;
 @NoArgsConstructor
 public class UserProfileViewModel implements UserModel {
 
+    private String username;
     private String email;
 }

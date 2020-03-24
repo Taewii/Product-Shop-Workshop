@@ -6,7 +6,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import productshop.domain.models.binding.user.EditUserProfileBindingModel;
-import productshop.domain.models.view.user.EditUserProfileViewModel;
 import productshop.domain.models.view.user.ListUserWithRolesViewModel;
 import productshop.domain.models.view.user.UserProfileViewModel;
 import productshop.domain.validation.UserValidator;
@@ -35,14 +34,8 @@ public class UserController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/edit")
-    public EditUserProfileViewModel profileEdit(Principal principal) { // TODO: 19.3.2020 г. does principal work?
-        return userService.getByUsername(principal.getName(), EditUserProfileViewModel.class);
-    }
-
-    @PreAuthorize("isAuthenticated()")
     @PatchMapping("/edit")
-    public ResponseEntity<?> profileEditPut(@Valid @RequestBody EditUserProfileBindingModel profile, Principal principal) {
+    public ResponseEntity<?> profileEditPatch(@Valid @RequestBody EditUserProfileBindingModel profile, Principal principal) {
         return userService.edit(principal.getName(), profile);
     }
 

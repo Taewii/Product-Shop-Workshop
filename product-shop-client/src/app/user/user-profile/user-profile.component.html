@@ -1,0 +1,19 @@
+<div class="jumbotron bg-light">
+    <div class="text-center">
+        <img src="https://res.cloudinary.com/rado-cloud/image/upload/v1553353764/manager-512.png" alt="profileImg">
+    </div>
+    <div class="row">
+        <div class="col col-md-12 text-center">
+            <h1>{{user.username}}</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-md-12 text-center">
+            <h4>{{user.email}}</h4>
+        </div>
+    </div>
+    <hr class="hr-2 bg-dark">
+    <div class="button-holder d-flex justify-content-center">
+        <a [routerLink]="['/users/edit']" class="btn btn-dark">Edit Profile</a>
+    </div>
+</div>

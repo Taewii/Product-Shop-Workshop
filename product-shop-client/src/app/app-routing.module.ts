@@ -5,6 +5,8 @@ import { IndexComponent } from './index/index.component';
 import { SignUpComponent } from './user/sign-up/sign-up.component';
 import { SignInComponent } from './user/sign-in/sign-in.component';
 import { AllUsersComponent } from './user/all-users/all-users.component';
+import { UserProfileComponent } from './user/user-profile/user-profile.component';
+import { EditUserProfileComponent } from './user/edit-user-profile/edit-user-profile.component';
 import { AuthGuard } from './auth/auth.guard';
 import { GuestGuard } from './auth/guest.guard';
 import { EditCategoryComponent } from './category/edit-category/edit-category.component';
@@ -26,7 +28,14 @@ const appRoutes: Routes = [
       { path: 'edit/:id', component: EditCategoryComponent },
     ]
   },
-  { path: 'users/all', component: AllUsersComponent, canActivate: [AuthGuard], data: { role: 'Admin' } },
+  {
+    path: 'users', canActivate: [AuthGuard], data: { role: 'User' },
+    children: [
+      { path: 'all', component: AllUsersComponent, canActivate: [AuthGuard], data: { role: 'Admin' } },
+      { path: 'profile', component: UserProfileComponent },
+      { path: 'edit', component: EditUserProfileComponent },
+    ]
+  },
   { path: '**', component: PageNotFoundComponent }
 ];
 
