@@ -6,7 +6,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import productshop.domain.models.binding.product.AddProductBindingModel;
-import productshop.domain.models.binding.product.DeleteProductBindingModel;
 import productshop.domain.models.binding.product.EditProductBindingModel;
 import productshop.domain.models.view.product.DeleteProductViewModel;
 import productshop.domain.models.view.product.DetailsProductViewModel;
@@ -69,9 +68,8 @@ public class ProductController {
 
     @PreAuthorize(IS_MODERATOR)
     @PostMapping("/add")
-    public ResponseEntity<?> addPost(@Valid @RequestBody AddProductBindingModel product) {
+    public ResponseEntity<?> addPost(@Valid @ModelAttribute AddProductBindingModel product) {
         return productService.add(product);
-//        return "redirect:/products/details/" + productId;
     }
 
     @PreAuthorize(IS_MODERATOR)
@@ -81,9 +79,9 @@ public class ProductController {
     }
 
     @PreAuthorize(IS_MODERATOR)
-    @DeleteMapping("/delete")
-    public ResponseEntity<?> deletePost(@Valid @RequestBody DeleteProductBindingModel model) {
-        return productService.delete(model);
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deletePost(@PathVariable UUID id) {
+        return productService.delete(id);
     }
 
     @InitBinder // TODO: 19.3.2020 г. do I need this still?

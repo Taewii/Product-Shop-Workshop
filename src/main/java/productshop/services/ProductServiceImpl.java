@@ -10,7 +10,6 @@ import productshop.domain.entities.Category;
 import productshop.domain.entities.Product;
 import productshop.domain.models.ApiResponse;
 import productshop.domain.models.binding.product.AddProductBindingModel;
-import productshop.domain.models.binding.product.DeleteProductBindingModel;
 import productshop.domain.models.binding.product.EditProductBindingModel;
 import productshop.domain.models.view.product.ListProductsViewModel;
 import productshop.repositories.CategoryRepository;
@@ -96,8 +95,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @CacheEvict(cacheNames = "products", allEntries = true)
-    public ResponseEntity<?> delete(DeleteProductBindingModel model) {
-        Product product = productRepository.findById(model.getId()).orElseThrow();
+    public ResponseEntity<?> delete(UUID id) {
+        Product product = productRepository.findById(id).orElseThrow();
         dropboxService.deleteFileFromSharableUrl(product.getImageUrl());
         productRepository.delete(product);
         return ResponseEntity.ok(new ApiResponse(true, "Successfully deleted product"));

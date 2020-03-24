@@ -1,10 +1,10 @@
-import { JwtInterceptor } from './auth/jwt.interceptor';
-import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
+import { JwtInterceptor } from './auth/jwt.interceptor';
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { IndexComponent } from './index/index.component';
 import { GuestNavbarComponent } from './navbar/guest-navbar/guest-navbar.component';
@@ -20,6 +20,11 @@ import { DeleteCategoryComponent } from './category/delete-category/delete-categ
 import { CreateCategoryComponent } from './category/create-category/create-category.component';
 import { EditCategoryComponent } from './category/edit-category/edit-category.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { CreateProductComponent } from './product/create-product/create-product.component';
+import { AllProductsComponent } from './product/all-products/all-products.component';
+import { ProductDetailsComponent } from './product/product-details/product-details.component';
+import { DeleteProductComponent } from './product/delete-product/delete-product.component';
+import { EditProductComponent } from './product/edit-product/edit-product.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +43,11 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     AllUsersComponent,
     UserProfileComponent,
     EditUserProfileComponent,
+    CreateProductComponent,
+    AllProductsComponent,
+    ProductDetailsComponent,
+    DeleteProductComponent,
+    EditProductComponent,
   ],
   imports: [
     BrowserModule,

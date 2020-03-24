@@ -13,6 +13,11 @@ import { EditCategoryComponent } from './category/edit-category/edit-category.co
 import { CreateCategoryComponent } from './category/create-category/create-category.component';
 import { DeleteCategoryComponent } from './category/delete-category/delete-category.component';
 import { AllCategoriesComponent } from './category/all-categories/all-categories.component';
+import { EditProductComponent } from './product/edit-product/edit-product.component';
+import { DeleteProductComponent } from './product/delete-product/delete-product.component';
+import { ProductDetailsComponent } from './product/product-details/product-details.component';
+import { AllProductsComponent } from './product/all-products/all-products.component';
+import { CreateProductComponent } from './product/create-product/create-product.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 const appRoutes: Routes = [
@@ -34,6 +39,16 @@ const appRoutes: Routes = [
       { path: 'all', component: AllUsersComponent, canActivate: [AuthGuard], data: { role: 'Admin' } },
       { path: 'profile', component: UserProfileComponent },
       { path: 'edit', component: EditUserProfileComponent },
+    ]
+  },
+  {
+    path: 'products',
+    children: [
+      { path: 'details/:id', component: ProductDetailsComponent },
+      { path: 'edit/:id', component: EditProductComponent, canActivate: [AuthGuard], data: { role: 'Moderator' } },
+      { path: 'delete/:id', component: DeleteProductComponent, canActivate: [AuthGuard], data: { role: 'Moderator' } },
+      { path: 'add', component: CreateProductComponent, canActivate: [AuthGuard], data: { role: 'Moderator' } },
+      { path: 'all', component: AllProductsComponent, canActivate: [AuthGuard], data: { role: 'Moderator' } }
     ]
   },
   { path: '**', component: PageNotFoundComponent }

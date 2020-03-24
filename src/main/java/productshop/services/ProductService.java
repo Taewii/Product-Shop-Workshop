@@ -2,7 +2,6 @@ package productshop.services;
 
 import org.springframework.http.ResponseEntity;
 import productshop.domain.models.binding.product.AddProductBindingModel;
-import productshop.domain.models.binding.product.DeleteProductBindingModel;
 import productshop.domain.models.binding.product.EditProductBindingModel;
 import productshop.domain.models.view.product.ListProductsViewModel;
 
@@ -21,5 +20,5 @@ public interface ProductService {
 
     ResponseEntity<?> edit(EditProductBindingModel model);
 
-    ResponseEntity<?> delete(DeleteProductBindingModel model);
+    ResponseEntity<?> delete(UUID id);
 }
