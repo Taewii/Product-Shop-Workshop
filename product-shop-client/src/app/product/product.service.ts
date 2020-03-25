@@ -17,6 +17,10 @@ export class ProductService {
     return this.http.get<Product[]>(`${API_URL}/products/all`);
   }
 
+  getAllByCategory(categoryId: number) {
+    return this.http.get<Product[]>(`${API_URL}/products/${categoryId}`);
+  }
+
   getDetailsModel(id: string) {
     return this.http.get<ProductDetails>(`${API_URL}/products/details/${id}`);
   }

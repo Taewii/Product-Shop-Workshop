@@ -33,7 +33,7 @@ public class ProductController {
     private final ProductValidator productValidator;
 
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/api/products/{id}")
+    @GetMapping("/{id}")
     @ResponseBody
     public List<ListProductsViewModel> getProductsFromCategory(@PathVariable(ID_ATTRIBUTE) Long id) {
         if (id == 0) {
