@@ -18,7 +18,9 @@ import productshop.repositories.ProductRepository;
 import productshop.repositories.UserRepository;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -55,9 +57,10 @@ public class OrderServiceImpl implements OrderService {
         order.setProduct(product);
         order.setTotalPrice(model.getPrice().multiply(BigDecimal.valueOf(Math.floor(model.getQuantity()))));
         order.setId(null); // it maps the id to be the model.productId
+        order.setOrderDate(Date.from(LocalDateTime.now().toInstant(ZoneOffset.UTC)));
 
-        orderRepository.saveAndFlush(order);
-        return ResponseEntity.ok(new ApiResponse(true, "Product successfully added to cart."));
+        Order entity = orderRepository.saveAndFlush(order);
+        return ResponseEntity.ok(new ApiResponse(true, entity.getId().toString()));
     }
 
     @Override
@@ -117,7 +120,7 @@ public class OrderServiceImpl implements OrderService {
 
         orders.forEach(order -> {
             order.setFinalized(true);
-            order.setOrderDate(LocalDateTime.now());
+            order.setOrderDate(Date.from(LocalDateTime.now().toInstant(ZoneOffset.UTC)));
 
             orderRepository.save(order);
         });

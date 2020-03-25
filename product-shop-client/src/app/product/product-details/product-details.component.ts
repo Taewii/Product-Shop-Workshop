@@ -12,6 +12,7 @@ import { Product } from './product-details.model';
 export class ProductDetailsComponent implements OnInit {
 
   product = new Product();
+  id: string;
 
   constructor(
     private productService: ProductService,
@@ -19,8 +20,8 @@ export class ProductDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    this.productService.getDetailsModel(id).subscribe(data => {
+    this.id = this.route.snapshot.paramMap.get('id');
+    this.productService.getDetailsModel(this.id).subscribe(data => {
       if (data) {
         this.product = data;
       }

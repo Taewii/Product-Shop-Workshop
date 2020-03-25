@@ -6,7 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -21,8 +21,9 @@ public class Order extends BaseUUIDEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private User customer;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "order_date")
-    private LocalDateTime orderDate;
+    private Date orderDate;
 
     @Column(name = "quantity", nullable = false)
     private Integer quantity;

@@ -13,7 +13,24 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="/users/profile">Profile</a>
                 </li>
-
+                <li class="nav-item active">
+                    <div class="dropdown show">
+                        <a class="nav-link active dropdown-toggle" href="#" role="button" id="cartDropdown" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            Cart
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="cartDropdown">
+                            <div *ngFor="let order of orders" class="dropdown-item text-center">{{order.productName}} x {{order.quantity}}</div>
+                            <div class="dropdown-divider"></div>
+                            <div class="button-holder d-flex justify-content-center">
+                                <a href="/cart/details" class="btn btn-dark">Cart</a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/orders/mine">My Orders</a>
+                </li>
                 <li *ngIf="isModerator" class="nav-item active">
                     <div class="dropdown show">
                         <a class="nav-link active dropdown-toggle" href="#" role="button" id="moderatorDropdown" data-toggle="dropdown"
@@ -38,6 +55,7 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="adminDropdown">
                             <a class="dropdown-item" href="/users/all">All Users</a>
+                            <a class="dropdown-item" href="/orders/all">All Orders</a>
                         </div>
                     </div>
                 </li>

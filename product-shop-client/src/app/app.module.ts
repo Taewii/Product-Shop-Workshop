@@ -25,6 +25,12 @@ import { AllProductsComponent } from './product/all-products/all-products.compon
 import { ProductDetailsComponent } from './product/product-details/product-details.component';
 import { DeleteProductComponent } from './product/delete-product/delete-product.component';
 import { EditProductComponent } from './product/edit-product/edit-product.component';
+import { OrderDetailsComponent } from './order/order-details/order-details.component';
+import { CreateOrderComponent } from './order/create-order/create-order.component';
+import { ListOrdersComponent } from './order/list-orders/list-orders.component';
+import { AllOrdersComponent } from './order/all-orders/all-orders.component';
+import { MyOrdersComponent } from './order/my-orders/my-orders.component';
+import { CartDetailsComponent } from './cart/cart-details/cart-details.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +54,12 @@ import { EditProductComponent } from './product/edit-product/edit-product.compon
     ProductDetailsComponent,
     DeleteProductComponent,
     EditProductComponent,
+    OrderDetailsComponent,
+    CreateOrderComponent,
+    ListOrdersComponent,
+    AllOrdersComponent,
+    MyOrdersComponent,
+    CartDetailsComponent,
   ],
   imports: [
     BrowserModule,

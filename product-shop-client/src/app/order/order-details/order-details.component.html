@@ -1,0 +1,35 @@
+<div class="jumbotron bg-light">
+    <div class="text-center">
+        <img [src]="order.productImageUrl" width="200" height="200" alt="Product">
+    </div>
+    <div class="row">
+        <div class="col col-md-12 text-center mt-5">
+            <h1>Name: {{order.productName}}</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-md-12 text-center mt-3">
+            <h4>Description: {{order.productDescription}}</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-md-12 text-center mt-3">
+            <h4>Customer: {{order.customerUsername}}</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-md-12 text-center">
+            <h4>Quantity: {{order.quantity}}</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-md-12 text-center">
+            <h4>Price: {{order.totalPrice | currency}}</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-md-12 text-center">
+            <h4>Date: {{order.orderDate | date:'medium' : '+0000'}}</h4>
+        </div>
+    </div>
+</div>

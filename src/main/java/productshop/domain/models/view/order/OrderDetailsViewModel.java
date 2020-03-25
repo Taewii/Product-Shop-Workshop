@@ -6,7 +6,7 @@ import lombok.Setter;
 import productshop.domain.models.base.OrderModel;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -18,6 +18,6 @@ public class OrderDetailsViewModel implements OrderModel {
     private String customerUsername;
     private Integer quantity;
     private BigDecimal totalPrice;
-    private LocalDateTime orderDate;
+    private Date orderDate;
     private String productImageUrl;
 }

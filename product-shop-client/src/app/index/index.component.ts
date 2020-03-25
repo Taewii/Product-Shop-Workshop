@@ -28,12 +28,12 @@ export class IndexComponent implements OnInit {
       this.isLoggedIn = !!data;
 
       if (this.isLoggedIn) {
-        this.categoryService.all().subscribe(data => {
-          if (data) this.categories = data;
+        this.categoryService.all().subscribe(categories => {
+          if (data) { this.categories = categories; }
         });
 
-        this.productService.getAll().subscribe(data => {
-          if (data) this.products = data;
+        this.productService.getAll().subscribe(products => {
+          if (data) { this.products = products; }
         });
       }
     });
@@ -41,7 +41,7 @@ export class IndexComponent implements OnInit {
 
   getProductsByCategory(categoryId) {
     this.productService.getAllByCategory(categoryId).subscribe(data => {
-      if (data) this.products = data;
+      if (data) { this.products = data; }
     });
   }
 }
